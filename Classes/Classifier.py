@@ -30,6 +30,7 @@ class Classifier(object):
         sess (tf.Session): session used for train/validate/inference
         summary (tf.Operation): records all the summarized data in the model when called from sess.run()
         sum_writer (tf.summary.FileWriter): write the recorded data to disk
+        epochs (int): number of training cycles perform to this instance of the model
 
     Raises:
         TypeError: input_data must have shape [batch_size, input_size]
@@ -60,7 +61,7 @@ class Classifier(object):
 
                     test_dataset = tf.data.Dataset.from_tensor_slices(test_data).repeat().batch(len(test_data))
                     train_dataset = tf.data.Dataset.from_tensor_slices(train_data).repeat().batch(mini_batch_size)
-
+                    
                     iterator = tf.data.Iterator.from_structure(train_dataset.output_types, train_dataset.output_shapes, "data_iterator/iterator")
                     next_item = iterator.get_next("next_item")
 
